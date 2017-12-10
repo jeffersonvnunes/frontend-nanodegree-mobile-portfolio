@@ -9,6 +9,7 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
+        /* Resize images to diferent sizes*/
         responsive_images: {
             main: {
                 options: {
@@ -65,6 +66,25 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        /* Compress images*/
+        imagemin: {
+            main: {
+                files: [{
+                    expand: true,
+                    cwd: 'img/',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'img/'
+                }]
+            },
+            views: {
+                files: [{
+                    expand: true,
+                    cwd: 'views/images/',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'views/images/'
+                }]
+            }
+        },
 
         /* Clear out the images directory if it exists */
         clean: {
@@ -97,7 +117,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+        /*Minify CSS and generate .mim file on dist folder */
         cssmin: {
             main: {
                 files: [{
@@ -119,7 +139,7 @@ module.exports = function(grunt) {
             }
 
         },
-
+        /*Minify javascript and generate .mim file on dist folder */
         uglify: {
             options: {
                 mangle: false
@@ -139,13 +159,12 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-responsive-images');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'cssmin', 'uglify']);
-    grunt.registerTask('css', ['clean', 'mkdir', 'cssmin']);
-    grunt.registerTask('js', ['clean', 'mkdir', 'uglify']);
+    grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'imagemin', 'cssmin', 'uglify']);
 
 };
